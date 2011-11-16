@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<document>
+
+    <properties>
+        <title>fakedb</title>
+    </properties>
+
+    <body>
+        <section name="fakdb">
+            <p>
+                Ensemble de classe permettant de simuler des accès JDBC. Il est maintenant préférable de
+                passer par Easymock (qui offre probablement plus de précision pour les tests).
+            </p>
+            <p>
+                Pour plus de précision se reporter à la page
+                <a href="http://4ddev02/vqwiki/jsp/Wiki?LibrairieFakeDB">wiki</a>
+            </p>
+        </section>
+    </body>
+</document>

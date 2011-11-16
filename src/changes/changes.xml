@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document>
+    <properties>
+        <title>Changes</title>
+    </properties>
+    <body>
+        <release version="1.05" date="2004-08-25" description="Evolution">
+            <action dev="gonnot" type="add">
+               Ajout de la méthode FakeDatabaseMetaData.getExportedKeys(..).
+            </action>
+            <action dev="gonnot" type="add">
+               Ajout de la méthode FakeDatabaseMetaData.getTables(..).
+            </action>
+        </release>
+        <release version="1.04" date="2004-08-01" description="Evolution">
+            <action dev="gonnot" type="add">
+               Ajout de la méthode FakeDatabaseMetaData.getImportedKeys(..).
+            </action>
+        </release>
+        <release version="1.03" date="2003-09-05" description="Stabilisation">
+            <action dev="gonnot" type="fix">
+               Stabilisation des SNAPSHOT.
+            </action>
+        </release>
+        <release version="1.0" date="2003-04-23" description="Version initiale">
+            <action dev="gonnot" type="fix" due-to="RED">
+                Passage de SourceSafe a CVS. Le projet est passé sous maven en même temps.
+            </action>
+        </release>
+    </body>
+</document>
