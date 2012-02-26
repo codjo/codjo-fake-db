@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.Array;
 import java.sql.Blob;
-import java.sql.CallableStatement;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.Date;
@@ -24,9 +23,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
+import net.codjo.test.common.mock.CallableStatementMock;
 
 @SuppressWarnings({"MethodParameterNamingConvention"})
-class FakeStatement implements CallableStatement {
+class FakeStatement extends CallableStatementMock {
     private Connection connection;
     private String[] parameters;
     private String prepareQuery;
@@ -850,8 +850,8 @@ class FakeStatement implements CallableStatement {
 
     private ResultSet popResultSet(String query) throws SQLException {
         FakeResultSet rs = FakeDriver.getDriver().popResultSet(query);
-        rs.setStatement(this);
-        return rs;
+        rs.setStatement(this.getStub());
+        return rs.getStub();
     }
 
 

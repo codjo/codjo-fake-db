@@ -22,8 +22,9 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
+import net.codjo.test.common.mock.ResultSetMock;
 
-public class FakeResultSet implements ResultSet {
+public class FakeResultSet extends ResultSetMock {
     private static final Number ZERO = 0L;
     private boolean close = false;
     private int lastColumnIndex = 0;
@@ -316,7 +317,7 @@ public class FakeResultSet implements ResultSet {
 
 
     public ResultSetMetaData getMetaData() throws SQLException {
-        return new FakeResultSetMetaData(matrix);
+        return new FakeResultSetMetaData(matrix).getStub();
     }
 
 

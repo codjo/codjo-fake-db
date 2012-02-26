@@ -16,7 +16,7 @@ public class FakeResultSetTest extends TestCase {
               {"01", "02"},
               {"11", "12"}
         };
-        FakeResultSet rs = new FakeResultSet(matrix);
+        ResultSet rs = new FakeResultSet(matrix).getStub();
 
         rs.next();
         assertEquals(rs.getObject(1), "01");
@@ -77,7 +77,7 @@ public class FakeResultSetTest extends TestCase {
               {"ANOMALY", "ANOMALY_LOG"},
               {new Integer(0), null}
         };
-        ResultSet rs = new FakeResultSet(matrix);
+        ResultSet rs = new FakeResultSet(matrix).getStub();
         try {
             rs.getObject("ANOMALY");
             fail("Next n'est pas appele, mais aucune erreur ne le signal");

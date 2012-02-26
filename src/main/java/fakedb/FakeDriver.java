@@ -53,7 +53,7 @@ public class FakeDriver implements java.sql.Driver {
 
     public Connection connect(String url, Properties info) throws SQLException {
         if (acceptsURL(url)) {
-            return new FakeConnection();
+            return new FakeConnection().getStub();
         }
         else {
             return null;

@@ -9,12 +9,17 @@ import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
+import net.codjo.test.common.mock.ProxyDelegatorFactory;
 
-class FakeDatabaseMetaData implements DatabaseMetaData {
+class FakeDatabaseMetaData /* implements DatabaseMetaData */ {
 
     FakeDatabaseMetaData() {
     }
 
+    public DatabaseMetaData getStub() {
+        // Todo handle UnsupportedOperationException with a delegator
+        return ProxyDelegatorFactory.getProxy(this, DatabaseMetaData.class);
+    }
 
     public String getURL() throws SQLException {
         throw new java.lang.UnsupportedOperationException("Method getURL() not yet implemented.");
@@ -871,6 +876,6 @@ class FakeDatabaseMetaData implements DatabaseMetaData {
 
 
     private ResultSet popResultSet(String query) throws SQLException {
-        return FakeDriver.getDriver().popResultSet(query);
+        return FakeDriver.getDriver().popResultSet(query).getStub();
     }
 }

@@ -4,10 +4,12 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package fakedb;
+import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import net.codjo.test.common.mock.ProxyDelegatorFactory;
 
-class FakeResultSetMetaData implements ResultSetMetaData {
+class FakeResultSetMetaData /* implements ResultSetMetaData */{
     private Object[][] matrix = {};
 
 
@@ -15,6 +17,10 @@ class FakeResultSetMetaData implements ResultSetMetaData {
         this.matrix = matrix;
     }
 
+    public ResultSetMetaData getStub() {
+        // Todo
+        return ProxyDelegatorFactory.getProxy(this, ResultSetMetaData.class);
+    }
 
     public int getColumnCount() throws SQLException {
         if (matrix.length == 0) {
