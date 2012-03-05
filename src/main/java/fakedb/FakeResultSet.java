@@ -7,7 +7,6 @@ package fakedb;
 import java.io.InputStream;
 import java.io.Reader;
 import java.math.BigDecimal;
-import java.net.URL;
 import java.sql.Array;
 import java.sql.Blob;
 import java.sql.Clob;
@@ -22,9 +21,10 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Map;
-import net.codjo.test.common.mock.ResultSetMock;
+import net.codjo.test.common.mock.ProxyDelegatorFactory;
 
-public class FakeResultSet extends ResultSetMock {
+@SuppressWarnings({"UnusedParameters", "OverlyComplexClass"})
+public class FakeResultSet {
     private static final Number ZERO = 0L;
     private boolean close = false;
     private int lastColumnIndex = 0;
@@ -45,9 +45,14 @@ public class FakeResultSet extends ResultSetMock {
                 next();
             }
             catch (SQLException e) {
-                // cas impossible
+                // Impossible
             }
         }
+    }
+
+
+    public ResultSet getStub() {
+        return ProxyDelegatorFactory.getProxy(this, ResultSet.class);
     }
 
 
@@ -67,11 +72,6 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public void cancelRowUpdates() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method cancelRowUpdates() not yet implemented.");
-    }
-
-
     public void clearWarnings() throws SQLException {
     }
 
@@ -80,11 +80,6 @@ public class FakeResultSet extends ResultSetMock {
         matrix = null;
         rowIndex = -1;
         close = true;
-    }
-
-
-    public void deleteRow() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method deleteRow() not yet implemented.");
     }
 
 
@@ -119,50 +114,42 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public InputStream getAsciiStream(int columnIndex)
-          throws SQLException {
+    public InputStream getAsciiStream(int columnIndex) throws SQLException {
         return (InputStream)getObject(columnIndex);
     }
 
 
-    public InputStream getAsciiStream(String columnName)
-          throws SQLException {
+    public InputStream getAsciiStream(String columnName) throws SQLException {
         return getAsciiStream(findColumn(columnName));
     }
 
 
-    public BigDecimal getBigDecimal(int columnIndex, int scale)
-          throws SQLException {
+    public BigDecimal getBigDecimal(int columnIndex, int scale) throws SQLException {
         return (BigDecimal)getObject(columnIndex);
     }
 
 
-    public BigDecimal getBigDecimal(String columnName, int scale)
-          throws SQLException {
+    public BigDecimal getBigDecimal(String columnName, int scale) throws SQLException {
         return getBigDecimal(findColumn(columnName));
     }
 
 
-    public BigDecimal getBigDecimal(int columnIndex)
-          throws SQLException {
+    public BigDecimal getBigDecimal(int columnIndex) throws SQLException {
         return (BigDecimal)getObject(columnIndex);
     }
 
 
-    public BigDecimal getBigDecimal(String columnName)
-          throws SQLException {
+    public BigDecimal getBigDecimal(String columnName) throws SQLException {
         return getBigDecimal(findColumn(columnName));
     }
 
 
-    public InputStream getBinaryStream(int columnIndex)
-          throws SQLException {
+    public InputStream getBinaryStream(int columnIndex) throws SQLException {
         return (InputStream)getObject(columnIndex);
     }
 
 
-    public InputStream getBinaryStream(String columnName)
-          throws SQLException {
+    public InputStream getBinaryStream(String columnName) throws SQLException {
         return getBinaryStream(findColumn(columnName));
     }
 
@@ -211,14 +198,12 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public Reader getCharacterStream(int columnIndex)
-          throws SQLException {
+    public Reader getCharacterStream(int columnIndex) throws SQLException {
         return (Reader)getObject(columnIndex);
     }
 
 
-    public Reader getCharacterStream(String columnName)
-          throws SQLException {
+    public Reader getCharacterStream(String columnName) throws SQLException {
         return getCharacterStream(findColumn(columnName));
     }
 
@@ -253,14 +238,12 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public Date getDate(int columnIndex, Calendar cal)
-          throws SQLException {
+    public Date getDate(int columnIndex, Calendar cal) throws SQLException {
         return getDate(columnIndex);
     }
 
 
-    public Date getDate(String columnName, Calendar cal)
-          throws SQLException {
+    public Date getDate(String columnName, Calendar cal) throws SQLException {
         return getDate(findColumn(columnName), cal);
     }
 
@@ -272,11 +255,6 @@ public class FakeResultSet extends ResultSetMock {
 
     public double getDouble(String columnName) throws SQLException {
         return getDouble(findColumn(columnName));
-    }
-
-
-    public int getFetchDirection() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method getFetchDirection() not yet implemented.");
     }
 
 
@@ -297,7 +275,6 @@ public class FakeResultSet extends ResultSetMock {
 
     public int getInt(int columnIndex) throws SQLException {
         return (getNumber(columnIndex)).intValue();
-//		return (getNumber(columnIndex)).intValue();
     }
 
 
@@ -339,8 +316,7 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public Object getObject(String colName, Map map)
-          throws SQLException {
+    public Object getObject(String colName, Map map) throws SQLException {
         return getObject(findColumn(colName), map);
     }
 
@@ -395,97 +371,33 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public Time getTime(int columnIndex, Calendar cal)
-          throws SQLException {
+    public Time getTime(int columnIndex, Calendar cal) throws SQLException {
         return getTime(columnIndex);
     }
 
 
-    public Time getTime(String columnName, Calendar cal)
-          throws SQLException {
+    public Time getTime(String columnName, Calendar cal) throws SQLException {
         return getTime(findColumn(columnName), cal);
     }
 
 
-    public Timestamp getTimestamp(int columnIndex)
-          throws SQLException {
+    public Timestamp getTimestamp(int columnIndex) throws SQLException {
         return (Timestamp)getObject(columnIndex);
     }
 
 
-    public Timestamp getTimestamp(String columnName)
-          throws SQLException {
+    public Timestamp getTimestamp(String columnName) throws SQLException {
         return getTimestamp(findColumn(columnName));
     }
 
 
-    public Timestamp getTimestamp(int columnIndex, Calendar cal)
-          throws SQLException {
+    public Timestamp getTimestamp(int columnIndex, Calendar cal) throws SQLException {
         return getTimestamp(columnIndex);
     }
 
 
-    public Timestamp getTimestamp(String columnName, Calendar cal)
-          throws SQLException {
+    public Timestamp getTimestamp(String columnName, Calendar cal) throws SQLException {
         return getTimestamp(findColumn(columnName), cal);
-    }
-
-
-    public URL getURL(int columnIndex) throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.getURL not yet implemented.");
-    }
-
-
-    public URL getURL(String columnName) throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.getURL not yet implemented.");
-    }
-
-
-    public void updateRef(int columnIndex, Ref x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateRef not yet implemented.");
-    }
-
-
-    public void updateRef(String columnName, Ref x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateRef not yet implemented.");
-    }
-
-
-    public void updateBlob(int columnIndex, Blob x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateBlob not yet implemented.");
-    }
-
-
-    public void updateBlob(String columnName, Blob x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateBlob not yet implemented.");
-    }
-
-
-    public void updateClob(int columnIndex, Clob x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateClob not yet implemented.");
-    }
-
-
-    public void updateClob(String columnName, Clob x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateClob not yet implemented.");
-    }
-
-
-    public void updateArray(int columnIndex, Array x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateArray not yet implemented.");
-    }
-
-
-    public void updateArray(String columnName, Array x)
-          throws SQLException {
-        throw new UnsupportedOperationException("FakeResultSet.updateArray not yet implemented.");
     }
 
 
@@ -494,25 +406,18 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public InputStream getUnicodeStream(int columnIndex)
-          throws SQLException {
+    public InputStream getUnicodeStream(int columnIndex) throws SQLException {
         return (InputStream)getObject(columnIndex);
     }
 
 
-    public InputStream getUnicodeStream(String columnName)
-          throws SQLException {
+    public InputStream getUnicodeStream(String columnName) throws SQLException {
         return getUnicodeStream(findColumn(columnName));
     }
 
 
     public SQLWarning getWarnings() throws SQLException {
         return null;
-    }
-
-
-    public void insertRow() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method insertRow() not yet implemented.");
     }
 
 
@@ -545,16 +450,6 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public void moveToCurrentRow() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method moveToCurrentRow() not yet implemented.");
-    }
-
-
-    public void moveToInsertRow() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method moveToInsertRow() not yet implemented.");
-    }
-
-
     public boolean next() throws SQLException {
         rowIndex++;
         return (rowIndex < matrix.length);
@@ -577,170 +472,126 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public boolean rowDeleted() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method rowDeleted() not yet implemented.");
-    }
-
-
-    public boolean rowInserted() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method rowInserted() not yet implemented.");
-    }
-
-
-    public boolean rowUpdated() throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method rowUpdated() not yet implemented.");
-    }
-
-
-    public void setFetchDirection(int direction) throws SQLException {
-        throw new java.lang.UnsupportedOperationException("Method setFetchDirection() not yet implemented.");
-    }
-
-
     public void setFetchSize(int rows) throws SQLException {
     }
 
 
-    public void updateAsciiStream(int columnIndex, InputStream x, int length)
-          throws SQLException {
+    public void updateAsciiStream(int columnIndex, InputStream x, int length) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateAsciiStream(String columnName, InputStream x, int length)
-          throws SQLException {
+    public void updateAsciiStream(String columnName, InputStream x, int length) throws SQLException {
         updateAsciiStream(findColumn(columnName), x, length);
     }
 
 
-    public void updateBigDecimal(int columnIndex, BigDecimal x)
-          throws SQLException {
+    public void updateBigDecimal(int columnIndex, BigDecimal x) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateBigDecimal(String columnName, BigDecimal x)
-          throws SQLException {
+    public void updateBigDecimal(String columnName, BigDecimal x) throws SQLException {
         updateBigDecimal(findColumn(columnName), x);
     }
 
 
-    public void updateBinaryStream(int columnIndex, InputStream x, int length)
-          throws SQLException {
+    public void updateBinaryStream(int columnIndex, InputStream x, int length) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateBinaryStream(String columnName, InputStream x, int length)
-          throws SQLException {
+    public void updateBinaryStream(String columnName, InputStream x, int length) throws SQLException {
         updateBinaryStream(findColumn(columnName), x, length);
     }
 
 
-    public void updateBoolean(int columnIndex, boolean x)
-          throws SQLException {
-        updateObject(columnIndex, Boolean.valueOf(x));
+    public void updateBoolean(int columnIndex, boolean x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateBoolean(String columnName, boolean x)
-          throws SQLException {
+    public void updateBoolean(String columnName, boolean x) throws SQLException {
         updateBoolean(findColumn(columnName), x);
     }
 
 
-    public void updateByte(int columnIndex, byte x)
-          throws SQLException {
-        updateObject(columnIndex, new Byte(x));
+    public void updateByte(int columnIndex, byte x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateByte(String columnName, byte x)
-          throws SQLException {
+    public void updateByte(String columnName, byte x) throws SQLException {
         updateByte(findColumn(columnName), x);
     }
 
 
-    public void updateBytes(int columnIndex, byte[] x)
-          throws SQLException {
+    public void updateBytes(int columnIndex, byte[] x) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateBytes(String columnName, byte[] x)
-          throws SQLException {
+    public void updateBytes(String columnName, byte[] x) throws SQLException {
         updateBytes(findColumn(columnName), x);
     }
 
 
-    public void updateCharacterStream(int columnIndex, Reader x, int length)
-          throws SQLException {
+    public void updateCharacterStream(int columnIndex, Reader x, int length) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateCharacterStream(String columnName, Reader reader, int length)
-          throws SQLException {
+    public void updateCharacterStream(String columnName, Reader reader, int length) throws SQLException {
         updateCharacterStream(findColumn(columnName), reader, length);
     }
 
 
-    public void updateDate(int columnIndex, Date x)
-          throws SQLException {
+    public void updateDate(int columnIndex, Date x) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateDate(String columnName, Date x)
-          throws SQLException {
+    public void updateDate(String columnName, Date x) throws SQLException {
         updateDate(findColumn(columnName), x);
     }
 
 
-    public void updateDouble(int columnIndex, double x)
-          throws SQLException {
-        updateObject(columnIndex, new Double(x));
+    public void updateDouble(int columnIndex, double x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateDouble(String columnName, double x)
-          throws SQLException {
+    public void updateDouble(String columnName, double x) throws SQLException {
         updateDouble(findColumn(columnName), x);
     }
 
 
-    public void updateFloat(int columnIndex, float x)
-          throws SQLException {
-        updateObject(columnIndex, new Float(x));
+    public void updateFloat(int columnIndex, float x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateFloat(String columnName, float x)
-          throws SQLException {
+    public void updateFloat(String columnName, float x) throws SQLException {
         updateFloat(findColumn(columnName), x);
     }
 
 
-    public void updateInt(int columnIndex, int x)
-          throws SQLException {
-        updateObject(columnIndex, new Integer(x));
+    public void updateInt(int columnIndex, int x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateInt(String columnName, int x)
-          throws SQLException {
+    public void updateInt(String columnName, int x) throws SQLException {
         updateInt(findColumn(columnName), x);
     }
 
 
-    public void updateLong(int columnIndex, long x)
-          throws SQLException {
-        updateObject(columnIndex, new Long(x));
+    public void updateLong(int columnIndex, long x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateLong(String columnName, long x)
-          throws SQLException {
+    public void updateLong(String columnName, long x) throws SQLException {
         updateLong(findColumn(columnName), x);
     }
 
@@ -755,28 +606,24 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public void updateObject(int columnIndex, Object x, int scale)
-          throws SQLException {
+    public void updateObject(int columnIndex, Object x, int scale) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateObject(int columnIndex, Object x)
-          throws SQLException {
+    public void updateObject(int columnIndex, Object x) throws SQLException {
         checkRowIndex();
         checkColumnIndex(columnIndex);
         matrix[rowIndex][columnIndex - 1] = x;
     }
 
 
-    public void updateObject(String columnName, Object x, int scale)
-          throws SQLException {
+    public void updateObject(String columnName, Object x, int scale) throws SQLException {
         updateObject(findColumn(columnName), x, scale);
     }
 
 
-    public void updateObject(String columnName, Object x)
-          throws SQLException {
+    public void updateObject(String columnName, Object x) throws SQLException {
         updateObject(findColumn(columnName), x);
     }
 
@@ -785,50 +632,42 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    public void updateShort(int columnIndex, short x)
-          throws SQLException {
-        updateObject(columnIndex, new Short(x));
+    public void updateShort(int columnIndex, short x) throws SQLException {
+        updateObject(columnIndex, x);
     }
 
 
-    public void updateShort(String columnName, short x)
-          throws SQLException {
+    public void updateShort(String columnName, short x) throws SQLException {
         updateShort(findColumn(columnName), x);
     }
 
 
-    public void updateString(int columnIndex, String x)
-          throws SQLException {
+    public void updateString(int columnIndex, String x) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateString(String columnName, String x)
-          throws SQLException {
+    public void updateString(String columnName, String x) throws SQLException {
         updateString(findColumn(columnName), x);
     }
 
 
-    public void updateTime(int columnIndex, Time x)
-          throws SQLException {
+    public void updateTime(int columnIndex, Time x) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateTime(String columnName, Time x)
-          throws SQLException {
+    public void updateTime(String columnName, Time x) throws SQLException {
         updateTime(findColumn(columnName), x);
     }
 
 
-    public void updateTimestamp(int columnIndex, Timestamp x)
-          throws SQLException {
+    public void updateTimestamp(int columnIndex, Timestamp x) throws SQLException {
         updateObject(columnIndex, x);
     }
 
 
-    public void updateTimestamp(String columnName, Timestamp x)
-          throws SQLException {
+    public void updateTimestamp(String columnName, Timestamp x) throws SQLException {
         updateTimestamp(findColumn(columnName), x);
     }
 
@@ -843,8 +682,7 @@ public class FakeResultSet extends ResultSetMock {
     }
 
 
-    private void checkColumnIndex(int columnIndex)
-          throws SQLException {
+    private void checkColumnIndex(int columnIndex) throws SQLException {
         if (columnIndex < 1 || columnIndex > matrix[rowIndex].length) {
             throw new SQLException("Bad ColumnIndex : " + columnIndex);
         }
@@ -877,9 +715,6 @@ public class FakeResultSet extends ResultSetMock {
         if (close) {
             throw new SQLException("ResultSet is closed");
         }
-        if (rowIndex < 0 || rowIndex >= matrix.length) {
-            return false;
-        }
-        return true;
+        return !(rowIndex < 0 || rowIndex >= matrix.length);
     }
 }
