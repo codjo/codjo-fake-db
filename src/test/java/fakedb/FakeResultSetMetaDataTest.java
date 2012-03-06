@@ -4,125 +4,76 @@
  * Copyright (c) 2001 AGF Asset Management.
  */
 package fakedb;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-/**
- * Description of the Class
- *
- * @author boris
- * @version $Revision: 1.1.1.1 $
- */
+
 public class FakeResultSetMetaDataTest extends TestCase {
-    /**
-     * Constructor for the FakeResultSetMetaDataTest object
-     *
-     * @param Name Description of Parameter
-     */
-    public FakeResultSetMetaDataTest(String Name) {
-        super(Name);
-    }
-
-    /**
-     * A unit test suite for JUnit
-     *
-     * @return The test suite
-     */
-    public static Test suite() {
-        return new TestSuite(FakeResultSetMetaDataTest.class);
-    }
-
-
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_getColumnName() throws Exception {
         Object[][] matrix = {
-                {"COL_A", "COL_B"},
-                {"01", "02"}
-            };
-        FakeResultSetMetaData rs = new FakeResultSetMetaData(matrix);
+              {"COL_A", "COL_B"},
+              {"01", "02"}
+        };
+        ResultSetMetaData rs = new FakeResultSetMetaData(matrix).getStub();
         assertEquals(rs.getColumnName(1), "COL_A");
         assertEquals(rs.getColumnName(2), "COL_B");
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_getColumnName_noColName() throws Exception {
         Object[][] matrix = {
-                {},
-                {"01", "02"}
-            };
-        FakeResultSetMetaData d = new FakeResultSetMetaData(matrix);
+              {},
+              {"01", "02"}
+        };
+        ResultSetMetaData metaData = new FakeResultSetMetaData(matrix).getStub();
         try {
-            d.getColumnName(1);
+            metaData.getColumnName(1);
         }
-        catch (SQLException ex) {}
+        catch (SQLException ex) {
+        }
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_getColumnCount() throws Exception {
         Object[][] matrix = {
-                {"COL_A", "COL_B"},
-                {"01", "02"}
-            };
-        FakeResultSetMetaData rs = new FakeResultSetMetaData(matrix);
+              {"COL_A", "COL_B"},
+              {"01", "02"}
+        };
+        ResultSetMetaData rs = new FakeResultSetMetaData(matrix).getStub();
         assertEquals(rs.getColumnCount(), 2);
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_getColumnCount_EmptyResultSet()
-        throws Exception {
+          throws Exception {
         Object[][] matrix = {};
-        FakeResultSetMetaData rs = new FakeResultSetMetaData(matrix);
+        ResultSetMetaData rs = new FakeResultSetMetaData(matrix).getStub();
         assertEquals(rs.getColumnCount(), 0);
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_getColumnName_badIndex() throws Exception {
         Object[][] matrix = {
-                {"COL_A", "COL_B"},
-                {"01", "02"}
-            };
-        FakeResultSetMetaData rs = new FakeResultSetMetaData(matrix);
+              {"COL_A", "COL_B"},
+              {"01", "02"}
+        };
+        ResultSetMetaData rs = new FakeResultSetMetaData(matrix).getStub();
         try {
             rs.getColumnName(3);
             fail("Column does not exist");
         }
-        catch (SQLException ex) {}
+        catch (SQLException ex) {
+        }
     }
 
 
-    /**
-     * The JUnit setup method
-     */
-    protected void setUp() {}
-
-
-    /**
-     * The teardown method for JUnit
-     */
-    protected void tearDown() {}
+    public void test_unsupportedOperation() throws Exception {
+        ResultSetMetaData rs = new FakeResultSetMetaData(null).getStub();
+        try {
+            rs.isAutoIncrement(0);
+            fail("Unsupported Method");
+        }
+        catch (UnsupportedOperationException ex) {
+        }
+    }
 }

@@ -10,12 +10,7 @@ import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.Stack;
-/**
- * Classe Driver.
- *
- * @author boris
- * @version $Revision: 1.4 $
- */
+
 public class FakeDriver implements java.sql.Driver {
     public static final Object[][] EMPTY = {};
     public static final String NO_CONSTRAINT = "";
@@ -23,7 +18,7 @@ public class FakeDriver implements java.sql.Driver {
           {},
           {new java.math.BigDecimal(1)}
     };
-    private static final FakeDriver instance;
+    @SuppressWarnings({"ConstantNamingConvention"}) private static final FakeDriver instance;
 
 
     static {
@@ -56,10 +51,9 @@ public class FakeDriver implements java.sql.Driver {
     }
 
 
-    public Connection connect(String url, Properties info)
-          throws SQLException {
+    public Connection connect(String url, Properties info) throws SQLException {
         if (acceptsURL(url)) {
-            return new FakeConnection();
+            return new FakeConnection().getStub();
         }
         else {
             return null;
@@ -161,8 +155,7 @@ public class FakeDriver implements java.sql.Driver {
         info("Return ResultSet for >" + query + "< ");
         if (resultSets.isEmpty()) {
             infoLN("NOK (no more ResultSet)");
-            throw new SQLException("No more ResultSet available for this query" + " >"
-                                   + query + "<");
+            throw new SQLException("No more ResultSet available for this query" + " >" + query + "<");
         }
         FakeResultSet rs = resultSets.pop();
         String expected = constraints.pop();

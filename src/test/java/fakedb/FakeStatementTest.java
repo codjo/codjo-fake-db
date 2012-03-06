@@ -11,40 +11,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Types;
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-/**
- * Classe Test de FakeConnection
- *
- * @author boris
- * @version $Revision: 1.1.1.1 $
- */
-public class FakeStatementTest extends TestCase {
-    /**
-     * Constructor for the FakeStatementTest object
-     *
-     * @param Name Description of Parameter
-     */
-    public FakeStatementTest(String Name) {
-        super(Name);
-    }
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
+public class FakeStatementTest extends TestCase {
     public void test_executeQuery() throws Exception {
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         Statement stmt = con.createStatement();
 
         Object[][] matrix = {
-                {},
-                {"200011"}
-            };
+              {},
+              {"200011"}
+        };
         FakeDriver.getDriver().pushResultSet(new FakeResultSet(matrix),
-            "select PERIOD from AP_PERIOD where ID = 11");
+                                             "select PERIOD from AP_PERIOD where ID = 11");
 
         ResultSet rs = stmt.executeQuery("select PERIOD from AP_PERIOD where ID = 11");
         rs.next();
@@ -52,11 +31,6 @@ public class FakeStatementTest extends TestCase {
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_executeUpdate() throws Exception {
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         FakeDriver.getDriver().pushUpdateConstraint(FakeDriver.NO_CONSTRAINT);
@@ -65,11 +39,6 @@ public class FakeStatementTest extends TestCase {
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_executeUpdate_BadQuery() throws Exception {
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         Statement stmt = con.createStatement();
@@ -84,51 +53,43 @@ public class FakeStatementTest extends TestCase {
             stmt.executeUpdate("aa");
             fail("Query Update has been constrained");
         }
-        catch (BadQueryException e) {}
+        catch (BadQueryException e) {
+        }
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_executeQuery_BadQuery() throws Exception {
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         Statement stmt = con.createStatement();
 
         Object[][] matrix = {
-                {},
-                {"200011"}
-            };
+              {},
+              {"200011"}
+        };
         FakeDriver.getDriver().pushResultSet(new FakeResultSet(matrix),
-            "select PERIOD from AP_PERIOD where ID = 11");
+                                             "select PERIOD from AP_PERIOD where ID = 11");
 
         try {
             stmt.executeQuery("select * from AP_PERIOD");
             fail("Mauvaise requete");
         }
-        catch (BadQueryException e) {}
+        catch (BadQueryException e) {
+        }
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_executeQuery_PreparedStatement()
-        throws Exception {
+          throws Exception {
         Object[][] matrix = {
-                {},
-                {"200011"}
-            };
+              {},
+              {"200011"}
+        };
         FakeDriver.getDriver().pushResultSet(new FakeResultSet(matrix),
-            "select * from TABLE where ID = 11 and NAME = toto");
+                                             "select * from TABLE where ID = 11 and NAME = toto");
 
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         PreparedStatement stmt =
-            con.prepareStatement("select * from TABLE where ID = ? and NAME = ?");
+              con.prepareStatement("select * from TABLE where ID = ? and NAME = ?");
 
         stmt.setInt(1, 11);
         stmt.setString(2, "toto");
@@ -139,18 +100,17 @@ public class FakeStatementTest extends TestCase {
 
 
     public void test_executeQuery_PreparedStatement_bug()
-        throws Exception {
+          throws Exception {
         Object[][] matrix = {
-                {},
-                {"200011"}
-            };
+              {},
+              {"200011"}
+        };
         FakeDriver.getDriver().pushResultSet(new FakeResultSet(matrix),
-            "select PERIOD,DAY_NUMBER from AP_VALUATION_PERIOD where VALUATION_PERIOD_CODE=null(sqlType=12)");
+                                             "select PERIOD,DAY_NUMBER from AP_VALUATION_PERIOD where VALUATION_PERIOD_CODE=null(sqlType=12)");
 
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         PreparedStatement stmt =
-            con.prepareStatement(
-                "select PERIOD,DAY_NUMBER from AP_VALUATION_PERIOD where VALUATION_PERIOD_CODE=?");
+              con.prepareStatement("select PERIOD,DAY_NUMBER from AP_VALUATION_PERIOD where VALUATION_PERIOD_CODE=?");
 
         stmt.setNull(1, Types.VARCHAR);
         ResultSet rs = stmt.executeQuery();
@@ -159,19 +119,14 @@ public class FakeStatementTest extends TestCase {
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_executeQuery_PreparedStatement_NoParameter()
-        throws Exception {
+          throws Exception {
         Object[][] matrix = {
-                {},
-                {"200011"}
-            };
+              {},
+              {"200011"}
+        };
         FakeDriver.getDriver().pushResultSet(new FakeResultSet(matrix),
-            "select * from TABLE");
+                                             "select * from TABLE");
 
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         PreparedStatement stmt = con.prepareStatement("select * from TABLE");
@@ -182,11 +137,6 @@ public class FakeStatementTest extends TestCase {
     }
 
 
-    /**
-     * A unit test for JUnit
-     *
-     * @exception Exception Description of Exception
-     */
     public void test_getMetaData() throws Exception {
         Connection con = DriverManager.getConnection("jdbc:fakeDriver");
         DatabaseMetaData stmt = con.getMetaData();
@@ -194,28 +144,8 @@ public class FakeStatementTest extends TestCase {
     }
 
 
-    /**
-     * The JUnit setup method
-     *
-     * @exception ClassNotFoundException Description of Exception
-     */
+    @Override
     protected void setUp() throws ClassNotFoundException {
         Class.forName("fakedb.FakeDriver");
-    }
-
-
-    /**
-     * The teardown method for JUnit
-     */
-    protected void tearDown() {}
-
-
-    /**
-     * A unit test suite for JUnit
-     *
-     * @return The test suite
-     */
-    public static Test suite() {
-        return new TestSuite(FakeStatementTest.class);
     }
 }
