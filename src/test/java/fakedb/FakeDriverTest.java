@@ -7,11 +7,7 @@ package fakedb;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import junit.framework.TestCase;
-/**
- * Description of the Class
- *
- * @author boris
- */
+
 public class FakeDriverTest extends TestCase {
     public void testRegister() throws Exception {
         Class.forName("fakedb.FakeDriver");
