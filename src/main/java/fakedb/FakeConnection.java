@@ -27,6 +27,10 @@ class FakeConnection {
     }
 
 
+    public void commit() throws SQLException {
+    }
+
+
     public void close() throws SQLException {
     }
 
@@ -76,7 +80,8 @@ class FakeConnection {
     }
 
 
-    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency) throws SQLException {
+    public PreparedStatement prepareStatement(String sql, int resultSetType, int resultSetConcurrency)
+          throws SQLException {
         return newFakeStatement(sql).getStub();
     }
 
